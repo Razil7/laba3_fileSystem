@@ -1,38 +1,12 @@
+#include "test.h"
 #include "fileSystem3.h"
 #include <string>
 #include "DynamicArrSequence.h"
 #include <filesystem> 
 using namespace std;
 
-int main() {
-	setlocale(LC_ALL, "RU");
-	//string namepapka1 = "papka1";
-	//fileTree folder(namepapka1);
-	//fileTree::node* papka1 = folder.gethead();
-	//for (int i = 0; i < 1e7; i++) {
-	//	string namepapka2 = "papka2";
-	//	papka1->addfolder(namepapka2);
-	//	fileTree::node* papka2 = papka1->getFileInFolder(namepapka2);
-	//	for (int i = 0; i < 100; i++) {	
-	//		papka2->addfolder(namepapka2);
-	//	}
-	//	papka1->deleteElm(namepapka2);
-	//}
-	
-	//string str = "C:\\Users\\razil\\OneDrive\\Desktop\\Новая папка";
-	//fileTree folder ;
-	//fileTree::node* papka = folder.traverse(str);
-	//papka->print();
 
-	std::cout << "whrite folder name\n";
-	string name;
-	std::cin >> name;
-	std::cin.clear();
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-	fileTree folder(name);
-	fileTree::node* headFolder = folder.gethead();
-
+void interface(fileTree::node* headFolder) {
 	fileTree::node* YouInF = headFolder;
 	int choise;
 
@@ -48,10 +22,11 @@ int main() {
 				std::cout << "2) addFile\n";
 				std::cout << "3) print your folder\n";
 				std::cout << "6) go to the folder item\n";
+				std::cout << "7) delete an item from the folder where you are located\n";
 			}
 			std::cout << "4) print full folder\n";
 			std::cout << "5) go to the parent folder\n";
-			
+
 			std::cin >> choise;
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -97,7 +72,7 @@ int main() {
 
 			case 4:
 			{
-				folder.print();
+				headFolder->print();
 				std::cout << "\n";
 				break;
 			}
@@ -111,7 +86,7 @@ int main() {
 				break;
 			}
 			case 6:
-			{		
+			{
 				if (YouInF->get_isFile()) {
 					break;
 				}
@@ -121,16 +96,35 @@ int main() {
 					break;
 				}
 				fileTree::node* temp = nullptr;
-				while (temp == nullptr) 
+				while (temp == nullptr)
 				{
 					std::cout << "\nwrite the name of the desired item\n";
 					string name;
 					std::cin >> name;
 					std::cin.clear();
 					std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-					temp = YouInF->getFileInFolder(name);	
+					temp = YouInF->getFileInFolder(name);
 				}
 				YouInF = temp;
+				break;
+			}
+
+			case 7:
+			{
+				if (YouInF->get_isFile()) {
+					break;
+				}
+				std::cout << "whrite file name\n";
+				string nameFile;
+				std::cin >> nameFile;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				fileTree::node* temp = YouInF->getFileInFolder(nameFile);
+				if (temp == nullptr) {
+					std::cout << "name not found , deletion failed\n";
+					break;
+				}
+				YouInF->deleteElm(nameFile);
 				break;
 			}
 
@@ -142,5 +136,66 @@ int main() {
 			std::cout << "\nthe operation failed, try again" << std::endl;
 		}
 	} while (choise);
+}
+
+
+
+
+int main() {
+	setlocale(LC_ALL, "RU");
+	//string namepapka1 = "papka1";
+	//fileTree folder(namepapka1);
+	//fileTree::node* papka1 = folder.gethead();
+	//for (int i = 0; i < 1e7; i++) {
+	//	string namepapka2 = "papka2";
+	//	papka1->addfolder(namepapka2);
+	//	fileTree::node* papka2 = papka1->getFileInFolder(namepapka2);
+	//	for (int i = 0; i < 100; i++) {	
+	//		papka2->addfolder(namepapka2);
+	//	}
+	//	papka1->deleteElm(namepapka2);
+	//}
+
+
+	testAddFileToFolder();
+	testAddFolderToFolder();
+	testMoveFileToFolder();
+	testCopyFileToFolder();
+	testSearchFileInTree();
+	testDeleteFile();
+
+	
+	std::cout << "\n\n1) create folder\n";
+	std::cout << "2) add a folder from windows\n";
+	int q;
+	std::cin >> q;
+	std::cin.clear();
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	switch (q) 
+	{
+	case 1:
+	{
+		std::cout << "whrite folder name\n";
+		string name;
+		std::cin >> name;
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		fileTree folder(name);
+		fileTree::node* headFolder = folder.gethead();
+		interface(headFolder);
+		break;
+	}
+
+	case 2:
+	{
+		string str = "C:\\Users\\razil\\OneDrive\\Desktop\\Новая папка";
+		fileTree folder ;
+		fileTree::node* headFolder = folder.traverse(str);
+		interface(headFolder);
+		break;
+	}
+	}
+
 	return 0;
 }

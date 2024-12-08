@@ -48,6 +48,8 @@ public:
 			if (h != head->name) {
 				return "not copy";
 			}
+			string zagl = folder.substr(0, folder.find('\\'));
+			folder = folder.substr(zagl.size() + 1);
 			while (folder.find('\\') != string::npos) {
 				string temp = folder.substr(0, folder.find('\\'));
 				folder = folder.substr(temp.size() + 1);
@@ -117,6 +119,7 @@ public:
 				}
 			}
 		}
+
 		node* getFileInFolder(string& name1) {
 			if (isFile) {
 				return nullptr;
@@ -134,6 +137,7 @@ public:
 		bool get_isFile() {
 			return isFile;
 		}
+
 		DynamicArrSequence<node*>* search(node& current, string& name1) {
 			DynamicArrSequence<node*> queue;
 			queue.push_back(&current);
@@ -142,10 +146,11 @@ public:
 				if (queue[queue.get_colElm() - 1]->getname() == name1) {
 					arr->push_back(queue[queue.get_colElm() - 1]);
 				}
+				int colElmOld = queue.get_colElm();
 				for (int i = 0; i < queue[queue.get_colElm() - 1]->children.get_colElm(); ++i) {
 					queue.push_back(&queue[queue.get_colElm() - 1]->children[i]);
 				}
-				queue.pop_index(queue.get_colElm() - 1);
+				queue.pop_index(colElmOld -1);
 			}
 			return arr;
 		}
