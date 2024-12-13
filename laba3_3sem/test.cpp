@@ -1,8 +1,10 @@
+
 #include "test.h"
 #include <iostream>
 #include <string>
 #include <cassert>
-#include "fileSystem3.h" 
+#include "NewFileSystem.h" 
+
 
 using namespace std;
 
@@ -12,10 +14,10 @@ void testAddFileToFolder() {
         fileTree ft(rootFolder);
 
         string fileName = "file1.txt";
-        ft.gethead()->addfile(fileName);
+        ft.gethead()->addElm(fileName,true);
 
         assert(ft.gethead()->getColElmInFolder() == 1);
-        assert(ft.gethead()->getFileInFolder(fileName)->get_isFile() == true);
+        assert(ft.gethead()->getFileInFolder(fileName)->isFile() == true);
         assert(ft.gethead()->getFileInFolder(fileName)->getname() == fileName);
 
         cout << "testAddFileToFolder complete!" << endl;
@@ -31,10 +33,10 @@ void testAddFolderToFolder() {
         fileTree ft(rootFolder);
 
         string folderName = "folder1";
-        ft.gethead()->addfolder(folderName);
+        ft.gethead()->addElm(folderName,false);
 
         assert(ft.gethead()->getColElmInFolder() == 1);
-        assert(!ft.gethead()->getFileInFolder(folderName)->get_isFile() == true);
+        assert(!ft.gethead()->getFileInFolder(folderName)->isFile() == true);
         assert(ft.gethead()->getFileInFolder(folderName)->getname() == folderName);
 
         cout << "testAddFolderToFolder complete!" << endl;
@@ -50,10 +52,10 @@ void testMoveFileToFolder() {
         fileTree ft(rootFolder);
 
         string fileName = "file1.txt";
-        ft.gethead()->addfile(fileName);
+        ft.gethead()->addElm(fileName,true);
 
         string folderName = "folder1";
-        ft.gethead()->addfolder(folderName);
+        ft.gethead()->addElm(folderName, false);
 
         // Переместить file1.txt в folder1
         ft.gethead()->getFileInFolder(fileName)->move("root\\folder1", ft.gethead());
@@ -74,10 +76,10 @@ void testCopyFileToFolder() {
         fileTree ft(rootFolder);
 
         string fileName = "file1.txt";
-        ft.gethead()->addfile(fileName);
+        ft.gethead()->addElm(fileName,true);
 
         string folderName = "folder1";
-        ft.gethead()->addfolder(folderName);
+        ft.gethead()->addElm(folderName,false);
 
         // Скопировать file1.txt в folder1
         ft.gethead()->getFileInFolder(fileName)->copy("root\\folder1", ft.gethead());
@@ -98,7 +100,7 @@ void testSearchFileInTree() {
         fileTree ft(rootFolder);
 
         string fileName = "file1.txt";
-        ft.gethead()->addfile(fileName);
+        ft.gethead()->addElm(fileName, true);
 
         string searchName = "file1.txt";
         auto result = ft.gethead()->search(*(ft.gethead()), searchName);
@@ -118,7 +120,7 @@ void testDeleteFile() {
         fileTree ft(rootFolder);
 
         string fileName = "file1.txt";
-        ft.gethead()->addfile(fileName);
+        ft.gethead()->addElm(fileName,true);
 
         ft.gethead()->deleteElm(fileName);
 
