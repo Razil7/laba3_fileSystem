@@ -143,6 +143,9 @@
     <ClInclude Include="MutableSequence.h" />
     <ClInclude Include="test.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="mai.gitignore" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -46,16 +46,16 @@ public:
 	}
 	bool print() override {
 		return false;
-	 }
-	 bool print(node* node) override {
-		 return false;
-	 }
-	 int getColElmInFolder() override {
-		 return -1;
-	 }
-	 bool traverse(string& str) override {
-		 return false;
-	 }
+	}
+	bool print(node* node) override {
+		return false;
+	}
+	int getColElmInFolder() override {
+		return -1;
+	}
+	bool traverse(string& str) override {
+		return false;
+	}
 
 private :
 	 void adder(Elm& elm) override {}
